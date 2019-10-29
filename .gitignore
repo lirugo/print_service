@@ -1,3 +1,4 @@
 # Project exclude paths
 /target/
 .idea/
+node_modules/
