@@ -6,6 +6,7 @@
                 v-for="i in 12"
                 :key="i"
                 sm="4"
+                md="3"
         >
 
             <v-card
