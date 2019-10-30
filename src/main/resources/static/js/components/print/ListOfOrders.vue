@@ -35,8 +35,8 @@
 
                     <v-list-item three-line>
                         <v-list-item-content>
-                            <div class="overline">Date of request - 12.12.19 14:30</div>
-                            <div class="overline">Date of manufacturing - 13.12.19 18:20</div>
+                            <div class="overline">12.12.19 14:30 - Date of request</div>
+                            <div class="overline">13.12.19 18:20 - Date of manufacturing</div>
                             <v-list-item-title class="headline mb-1">Name of material</v-list-item-title>
                             <v-list-item-subtitle>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid aspernatur debitis dolore ducimus enim labore mollitia, quasi quibusdam voluptatem? Aliquid, odit.</v-list-item-subtitle>
                         </v-list-item-content>

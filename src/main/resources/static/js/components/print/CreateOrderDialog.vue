@@ -63,6 +63,7 @@
                             </v-row>
 
                             <v-text-field label="Name" required></v-text-field>
+                            <v-text-field label="Group name" required></v-text-field>
                             <v-textarea
                                     outlined
                                     label="Description"
