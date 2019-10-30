@@ -1,5 +1,6 @@
-const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const path = require('path')
+const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 module.exports = {
     mode: 'development',
@@ -28,11 +29,22 @@ module.exports = {
             {
                 test: /\.vue$/,
                 loader: 'vue-loader'
-            }
+            },
+            {
+                test: /\.s(c|a)ss$/,
+                use: [
+                    'vue-style-loader',
+                    'css-loader',
+                    {
+                        loader: 'sass-loader',
+                    },
+                ],
+            },
         ]
     },
     plugins: [
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+        new VuetifyLoaderPlugin()
     ],
     resolve: {
         modules: [
