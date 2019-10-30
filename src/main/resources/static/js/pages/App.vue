@@ -17,7 +17,6 @@
                     <span class="headline">Create print order</span>
                 </v-card-title>
                 <v-card-text>
-                    <small>*indicates required field</small>
                     <v-container>
                         <v-row>
                             <v-col cols="12" class="pt-0 pb-0">
@@ -84,31 +83,39 @@
                                 <v-file-input label="Upload file"></v-file-input>
 
                                 <v-row cols="12" class="pt-0 pb-0">
-                                    <v-col sm="12" md="6" class="pt-0 pb-0">
+                                    <v-col cols="12" sm="12" md="3" class="pt-0 pb-0">
                                         <v-text-field
                                                 type="number"
                                                 label="Count of copies"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col sm="12" md="6" class="pt-0 pb-0">
+                                    <v-col cols="12" sm="12" md="3" class="pt-0 pb-0">
                                         <v-text-field
                                                 type="number"
                                                 label="Count of pages"
                                         ></v-text-field>
                                     </v-col>
-                                    <v-col sm="12" md="6" class="pt-0 pb-0">
+                                    <v-col cols="12" sm="12" md="3" class="pt-0 pb-0">
                                         <v-select
                                                 :items="['1 sides', '2 sides']"
                                                 label="Print type"
                                                 required
                                         ></v-select>
                                     </v-col>
-                                    <v-col sm="12" md="6" class="pt-0 pb-0">
+                                    <v-col cols="12" sm="12" md="3" class="pt-0 pb-0">
                                         <v-select
                                                 :items="['Black/White', 'Color']"
                                                 label="Print color"
                                                 required
                                         ></v-select>
+                                    </v-col>
+                                    <v-col class="pt-0 pb-0">
+
+                                        <v-checkbox input-value="true"
+                                                    append-icon="mdi-exclamation"
+                                                    label="High priority"
+                                                    value="false"
+                                        ></v-checkbox>
                                     </v-col>
                                 </v-row>
                             </v-col>
