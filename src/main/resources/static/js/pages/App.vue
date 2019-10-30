@@ -1,41 +1,33 @@
 <template>
     <v-app>
         <v-content>
+            <v-toolbar>
+                <v-toolbar-title>Print Service</v-toolbar-title>
+
+                <v-spacer></v-spacer>
+
+                <v-switch
+                        class="mt-7"
+                        v-model="$vuetify.theme.dark"
+                        append-icon="mdi-weather-night"
+                        prepend-icon="mdi-white-balance-sunny"
+                />
+            </v-toolbar>
+
             <v-container fluid
-                         class="grey lighten-2"
                          fill-height
             >
-                <v-card
-                        class="mx-auto"
-                        max-width="344"
-                        outlined
-                >
-                    <v-list-item three-line>
-                        <v-list-item-content>
-                            <div class="overline mb-4">OVERLINE</div>
-                            <v-list-item-title class="headline mb-1">Headline 5</v-list-item-title>
-                            <v-list-item-subtitle>Greyhound divisely hello coldly fonwderfully</v-list-item-subtitle>
-                        </v-list-item-content>
-
-                        <v-list-item-avatar
-                                tile
-                                size="80"
-                                color="grey"
-                        ></v-list-item-avatar>
-                    </v-list-item>
-
-                    <v-card-actions>
-                        <v-btn text>Button</v-btn>
-                        <v-btn text>Button</v-btn>
-                    </v-card-actions>
-                </v-card>
+                <ListOfOrders/>
             </v-container>
         </v-content>
     </v-app>
 </template>
 
 <script>
+    import ListOfOrders from 'components/print/ListOfOrders.vue'
     export default {
-
+        components: {
+            ListOfOrders,
+        }
     }
 </script>
