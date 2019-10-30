@@ -1,19 +1,8 @@
 <template>
     <v-app>
+
+        <toolbar/>
         <v-content>
-            <v-toolbar>
-                <v-toolbar-title>Print Service</v-toolbar-title>
-
-                <v-spacer></v-spacer>
-
-                <v-switch
-                        class="mt-7"
-                        v-model="$vuetify.theme.dark"
-                        append-icon="mdi-weather-night"
-                        prepend-icon="mdi-white-balance-sunny"
-                />
-            </v-toolbar>
-
             <v-container fluid
                          fill-height
             >
@@ -24,9 +13,11 @@
 </template>
 
 <script>
+    import Toolbar from 'components/Toolbar.vue'
     import ListOfOrders from 'components/print/ListOfOrders.vue'
     export default {
         components: {
+            Toolbar,
             ListOfOrders,
         }
     }

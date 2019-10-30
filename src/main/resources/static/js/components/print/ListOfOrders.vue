@@ -35,7 +35,6 @@
                     </v-btn>
                     <v-spacer/>
                     <v-chip color="green">DONE</v-chip>
-
                 </v-card-actions>
             </v-card>
 
