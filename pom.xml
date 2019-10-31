@@ -72,5 +72,13 @@
             <artifactId>slf4j-jdk14</artifactId>
             <version>1.7.25</version>
         </dependency>
+
+        <!--Spring Data REST Web MVC-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-webmvc</artifactId>
+            <version>3.1.9.RELEASE</version>
+        </dependency>
+
     </dependencies>
 </project>
