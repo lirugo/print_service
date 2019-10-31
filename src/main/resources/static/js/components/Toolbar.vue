@@ -12,7 +12,9 @@
             />
         </template>
 
-        <v-toolbar-title>Print Service</v-toolbar-title>
+        <template v-if="$vuetify.breakpoint.smAndUp">
+            <v-toolbar-title>Print Service</v-toolbar-title>
+        </template>
 
         <v-spacer></v-spacer>
 
@@ -29,8 +31,10 @@
                 <v-icon>mdi-plus</v-icon>
             </v-btn>
 
-            <v-list-item-title>John Doe</v-list-item-title>
-            <v-list-item-avatar color="grey" class="mr-2"/>
+            <template v-if="$vuetify.breakpoint.smAndUp">
+                <v-list-item-title>John Doe</v-list-item-title>
+                <v-list-item-avatar color="grey" class="mr-2"/>
+            </template>
 
             <v-btn icon>
                 <v-icon>mdi-exit-to-app</v-icon>
