@@ -6,7 +6,7 @@
             <v-container fluid
                          fill-height
             >
-                <ListOfOrders/>
+                <router-view></router-view>
             </v-container>
         </v-content>
 
