@@ -11,6 +11,9 @@ import javax.persistence.Table;
 @Table(name = "usr")
 public class User{
     @Id
-    private long id;
+    private String id;
+    private String email;
     private String name;
+    private String picture;
+    private String room;
 }

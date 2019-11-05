@@ -144,13 +144,13 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-client</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.0.13.RELEASE</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-jose</artifactId>
-            <version>5.2.0.RELEASE</version>
+            <version>5.0.13.RELEASE</version>
         </dependency>
 
     </dependencies>
