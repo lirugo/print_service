@@ -32,8 +32,13 @@
             </v-btn>
 
             <template v-if="$vuetify.breakpoint.smAndUp">
-                <v-list-item-title>John Doe</v-list-item-title>
-                <v-list-item-avatar color="grey" class="mr-2"/>
+                <v-list-item-title v-text="user.name"></v-list-item-title>
+                <v-list-item-avatar color="grey" class="mr-2">
+                    <img
+                            :src="user.picture"
+                            alt="John"
+                    >
+                </v-list-item-avatar>
             </template>
 
             <v-btn icon>
@@ -44,7 +49,11 @@
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     export default {
+        computed: {
+            ...mapState(['user']),
+        },
         methods: {
             createPrintOrder(){
                 this.$emit('createPrintOrder')
