@@ -1,6 +1,7 @@
 package com.lirugo.print_service.service;
 
 import com.lirugo.print_service.entity.User;
+import com.lirugo.print_service.entity.UserRole;
 import com.lirugo.print_service.repo.UserRepo;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
@@ -41,6 +42,7 @@ public class CustomOidcUserService extends OidcUserService {
             user.setEmail(googleOAuth2User.getEmail());
             user.setName(googleOAuth2User.getName());
             user.setPicture(googleOAuth2User.getPicture());
+            user.setRoles(UserRole.USER);
 
             userRepo.save(user);
         }
