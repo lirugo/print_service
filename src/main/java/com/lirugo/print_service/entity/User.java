@@ -21,15 +21,4 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
-
-    public void setRoles(UserRole role) {
-        if(this.roles == null){
-            this.roles = new HashSet<>();
-            this.roles.add(role);
-
-        }else{
-            this.roles.add(role);
-        }
-
-    }
 }

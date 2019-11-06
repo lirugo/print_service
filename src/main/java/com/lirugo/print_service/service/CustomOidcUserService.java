@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.Optional;
 
 @Service
@@ -42,7 +43,7 @@ public class CustomOidcUserService extends OidcUserService {
             user.setEmail(googleOAuth2User.getEmail());
             user.setName(googleOAuth2User.getName());
             user.setPicture(googleOAuth2User.getPicture());
-            user.setRoles(UserRole.USER);
+            user.setRoles(Collections.singleton(UserRole.USER));
 
             userRepo.save(user);
         }
