@@ -22,8 +22,9 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
+                .mvcMatchers("/graphql**").permitAll()
                 .anyRequest().authenticated()
-                .and()
+                .and().csrf().disable()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .oidcUserService(oidcUserService())
