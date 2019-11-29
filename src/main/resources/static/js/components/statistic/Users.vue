@@ -6,58 +6,78 @@
                 cols="12"
                 sm="6"
                 md="4">
-            <v-card
-                    class="mx-auto"
+
+            <v-skeleton-loader
+                    :loading="loadingUsers"
+                    transition="fade-transition"
+                    height="94"
+                    type="list-item-avatar-three-line"
             >
-                <v-toolbar>
-                    <v-toolbar-title>Printing Worker</v-toolbar-title>
-                </v-toolbar>
-                <v-list>
-                    <v-list-item
-                            v-for="item in items"
-                            :key="item.title"
-                            @click="statistic()"
-                    >
-                        <v-list-item-icon>
-                            <v-icon>mdi-google-spreadsheet</v-icon>
-                        </v-list-item-icon>
+                <v-card
+                        class="mx-auto"
+                >
 
-                        <v-list-item-content>
-                            <v-list-item-title v-text="item.title"></v-list-item-title>
-                        </v-list-item-content>
+                    <v-toolbar>
+                        <v-toolbar-title>Printing Worker</v-toolbar-title>
+                    </v-toolbar>
+                    <v-list>
+                        <v-list-item
+                                v-for="user in getUsers"
+                                :key="user.id"
+                                @click="statistic()"
+                                v-if="user.roles.includes('ADMIN')"
+                        >
+                            <v-list-item-icon>
+                                <v-icon>mdi-google-spreadsheet</v-icon>
+                            </v-list-item-icon>
 
-                        <v-list-item-avatar>
-                            <v-img :src="item.avatar"></v-img>
-                        </v-list-item-avatar>
-                    </v-list-item>
-                </v-list>
-            </v-card>
+                            <v-list-item-content>
+                                <v-list-item-title v-text="user.name"></v-list-item-title>
+                                <v-list-item-subtitle v-text="'Last visit ' + user.lastVisit"></v-list-item-subtitle>
+                            </v-list-item-content>
+
+                            <v-list-item-avatar>
+                                <v-img :src="user.picture"></v-img>
+                            </v-list-item-avatar>
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-skeleton-loader>
         </v-col>
         <v-col
                 cols="12"
                 sm="6"
                 md="4">
-            <v-card
-                    class="mx-auto"
+            <v-skeleton-loader
+                    :loading="loadingUsers"
+                    transition="fade-transition"
+                    height="94"
+                    type="list-item-avatar-three-line"
             >
-                <v-toolbar>
-                    <v-toolbar-title>Users</v-toolbar-title>
-                </v-toolbar>
-                <v-list>
-                    <v-list-item
-                            v-for="item in items"
-                            :key="item.title"
-                    >
-                        <v-list-item-content>
-                            <v-list-item-title v-text="item.title"></v-list-item-title>
-                        </v-list-item-content>
+                <v-card
+                        class="mx-auto"
+                >
+                    <v-toolbar>
+                        <v-toolbar-title>Users</v-toolbar-title>
+                    </v-toolbar>
+                    <v-list>
+                        <v-list-item
+                                v-for="user in getUsers"
+                                :key="user.id"
+                                v-if="user.roles.includes('USER')"
+                        >
+                            <v-list-item-content>
+                                <v-list-item-title v-text="user.name"></v-list-item-title>
+                                <v-list-item-subtitle v-text="'Last visit ' + user.lastVisit"></v-list-item-subtitle>
+                            </v-list-item-content>
 
-                        <v-list-item-avatar>
-                            <v-img :src="item.avatar"></v-img>
-                        </v-list-item-avatar>
-                    </v-list-item>
-                </v-list>
-            </v-card>
+                            <v-list-item-avatar>
+                                <v-img :src="user.picture"></v-img>
+                            </v-list-item-avatar>
+                        </v-list-item>
+                    </v-list>
+                </v-card>
+            </v-skeleton-loader>
         </v-col>
 
         <!--        Dialog-->
@@ -119,26 +139,36 @@
                 </v-card-actions>
             </v-card>
         </v-dialog>
+
     </v-row>
 </template>
 
 <script>
+    import {mapActions, mapGetters} from 'vuex'
+
     export default {
         data () {
             return {
                 dialog: false,
-                items: [
-                    { icon: true, title: 'Jason Oner', avatar: 'https://cdn.vuetifyjs.com/images/lists/1.jpg' },
-                    { title: 'Travis Howard', avatar: 'https://cdn.vuetifyjs.com/images/lists/2.jpg' },
-                    { title: 'Ali Connors', avatar: 'https://cdn.vuetifyjs.com/images/lists/3.jpg' },
-                    { title: 'Cindy Baker', avatar: 'https://cdn.vuetifyjs.com/images/lists/4.jpg' },
-                ],
+                loadingUsers: true,
+            }
+        },
+        computed: {
+            ...mapGetters(['getUsers']),
+        },
+        watch: {
+            getUsers: function () {
+                this.loadingUsers = false
             }
         },
         methods: {
+            ...mapActions(['fetchUsersAction']),
             statistic(){
                 this.dialog = true
             }
+        },
+        created() {
+            this.fetchUsersAction()
         }
     }
 </script>
