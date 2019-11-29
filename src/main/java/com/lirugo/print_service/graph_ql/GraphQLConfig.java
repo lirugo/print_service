@@ -1,5 +1,6 @@
 package com.lirugo.print_service.graph_ql;
 
+import com.lirugo.print_service.graph_ql.directive.DateTimeFormatDirective;
 import com.lirugo.print_service.service.UserService;
 import com.lirugo.print_service.fetcher.UserFetcher;
 import graphql.GraphQL;
@@ -13,10 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 import static graphql.schema.idl.RuntimeWiring.newRuntimeWiring;
 
@@ -28,31 +26,22 @@ public class GraphQLConfig {
 
     @Bean
     public GraphQL graphQL(ResourceLoader resourceLoader) {
-        SchemaParser schemaParser = new SchemaParser();
-        TypeDefinitionRegistry typeDefinitionRegistry = schemaParser.parse(getSchema(resourceLoader));
-
+        File schemaFile = null;
+        try {
+            schemaFile = resourceLoader.getResource("classpath:schema.graphqls").getFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        TypeDefinitionRegistry typeDefinitionRegistry = new SchemaParser().parse(schemaFile);
+        
         RuntimeWiring runtimeWiring = newRuntimeWiring()
+                .directive("dateFormat", new DateTimeFormatDirective())
                 .type("Query", builder -> builder.dataFetcher("users", new UserFetcher(userService)))
                 .build();
 
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);
 
         return GraphQL.newGraphQL(graphQLSchema).build();
-    }
-
-    private static String getSchema(ResourceLoader resourceLoader) {
-        try {
-            StringBuilder builder = new StringBuilder();
-            InputStream inputStream = resourceLoader.getResource("classpath:schema.graphqls").getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-            while (bufferedReader.ready()) {
-                builder.append(bufferedReader.readLine());
-            }
-            return builder.toString();
-        } catch (IOException e) {
-            throw new RuntimeException("Failed to load Schema", e);
-        }
     }
 }

@@ -1,6 +1,4 @@
-schema {
-    query: Query
-}
+directive @dateFormat on FIELD_DEFINITION
 
 type Query {
     users: [User]
@@ -10,4 +8,7 @@ type User {
     name: String,
     email: String,
     picture: String,
+    room: String,
+    lastVisit: String @dateFormat,
+    roles: [String],
 }

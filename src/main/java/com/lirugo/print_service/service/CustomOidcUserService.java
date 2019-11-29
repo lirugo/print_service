@@ -37,6 +37,8 @@ public class CustomOidcUserService extends OidcUserService {
         GoogleOAuth2UserService googleOAuth2User = new GoogleOAuth2UserService(oidcUser.getAttributes());
 
         Optional<User> userOptional = Optional.ofNullable(userRepo.findByEmail(googleOAuth2User.getEmail()));
+
+        //This is new user, store to db
         if (!userOptional.isPresent()) {
             User user = new User();
             user.setId(googleOAuth2User.getId());
