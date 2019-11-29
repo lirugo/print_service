@@ -1,7 +1,9 @@
 package com.lirugo.print_service.service;
 
-import org.springframework.stereotype.Service;
+import com.lirugo.print_service.entity.User;
 
-@Service
-public class UserService {
+import java.util.List;
+
+public interface UserService {
+    List<User> getAll();
 }
