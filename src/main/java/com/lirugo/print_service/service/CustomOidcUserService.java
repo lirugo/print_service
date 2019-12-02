@@ -1,7 +1,7 @@
 package com.lirugo.print_service.service;
 
 import com.lirugo.print_service.entity.User;
-import com.lirugo.print_service.entity.UserRole;
+import com.lirugo.print_service.enums.UserRole;
 import com.lirugo.print_service.repo.UserRepo;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;

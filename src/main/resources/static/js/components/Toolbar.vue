@@ -5,6 +5,7 @@
     >
         <template v-if="$vuetify.breakpoint.smAndUp">
             <v-switch
+                    color="white"
                     class="mt-7 mr-5"
                     v-model="$vuetify.theme.dark"
                     append-icon="mdi-weather-night"

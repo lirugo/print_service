@@ -18,7 +18,7 @@
                 >
 
                     <v-toolbar>
-                        <v-toolbar-title>Printing Worker</v-toolbar-title>
+                        <v-toolbar-title>Printing Workers</v-toolbar-title>
                     </v-toolbar>
                     <v-list>
                         <v-list-item

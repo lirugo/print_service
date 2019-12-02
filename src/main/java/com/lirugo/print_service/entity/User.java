@@ -1,5 +1,6 @@
 package com.lirugo.print_service.entity;
 
+import com.lirugo.print_service.enums.UserRole;
 import lombok.Data;
 
 import javax.persistence.*;
