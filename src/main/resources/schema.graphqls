@@ -1,15 +1,38 @@
 directive @dateFormat on FIELD_DEFINITION
 
+schema {
+    query: Query,
+    mutation: Mutation
+}
+
 type Query {
     users: [User],
-    orders: [Order]
+    orders: [Order],
+}
+
+type Mutation {
+    storeOrder(
+        name: String,
+        executorId: String,
+        groupName: String,
+        description: String,
+        fileName: String,
+        copies: Int,
+        pages: Int,
+        orderStatus: String,
+        orderPriority: String,
+        printType: String,
+        paperType: String,
+        colorType: String,
+        manufactureDate: String,
+    ):Order
 }
 
 type Order {
     id: Int,
+    name: String,
     author: User,
     executor: User,
-    name: String,
     groupName: String,
     description: String,
     fileName: String,
@@ -26,6 +49,7 @@ type Order {
 }
 
 type User {
+    id: String,
     name: String,
     email: String,
     picture: String,

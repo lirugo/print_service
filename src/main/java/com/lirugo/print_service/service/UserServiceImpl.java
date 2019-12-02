@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepo userRepo;
@@ -16,5 +16,10 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<User> getAll() {
         return userRepo.findAll();
+    }
+
+    @Override
+    public User getById(String id) {
+        return userRepo.findById(id).get();
     }
 }
