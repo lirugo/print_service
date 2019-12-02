@@ -1,6 +1,8 @@
 package com.lirugo.print_service.graph_ql;
 
+import com.lirugo.print_service.fetcher.OrderFetecher;
 import com.lirugo.print_service.graph_ql.directive.DateTimeFormatDirective;
+import com.lirugo.print_service.service.OrderService;
 import com.lirugo.print_service.service.UserService;
 import com.lirugo.print_service.fetcher.UserFetcher;
 import graphql.GraphQL;
@@ -23,6 +25,8 @@ public class GraphQLConfig {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     @Bean
     public GraphQL graphQL(ResourceLoader resourceLoader) {
@@ -38,6 +42,7 @@ public class GraphQLConfig {
         RuntimeWiring runtimeWiring = newRuntimeWiring()
                 .directive("dateFormat", new DateTimeFormatDirective())
                 .type("Query", builder -> builder.dataFetcher("users", new UserFetcher(userService)))
+                .type("Query", builder -> builder.dataFetcher("orders", new OrderFetecher(orderService)))
                 .build();
 
         GraphQLSchema graphQLSchema = new SchemaGenerator().makeExecutableSchema(typeDefinitionRegistry, runtimeWiring);

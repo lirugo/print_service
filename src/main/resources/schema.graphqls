@@ -1,7 +1,28 @@
 directive @dateFormat on FIELD_DEFINITION
 
 type Query {
-    users: [User]
+    users: [User],
+    orders: [Order]
+}
+
+type Order {
+    id: Int,
+    author: User,
+    executor: User,
+    name: String,
+    groupName: String,
+    description: String,
+    fileName: String,
+    copies: Int,
+    pages: Int,
+    orderStatus: String,
+    orderPriority: String,
+    printType: String,
+    paperType: String,
+    colorType: String,
+    manufactureDate: String @dateFormat,
+    createdAt: String @dateFormat,
+    updatedAt: String @dateFormat,
 }
 
 type User {
