@@ -188,6 +188,7 @@
 
 <script>
     import moment from 'moment'
+    import {mapActions} from "vuex";
     import axios from "axios";
     import {extend, ValidationObserver, ValidationProvider} from 'vee-validate'
     import {email, required} from 'vee-validate/dist/rules'
@@ -236,30 +237,32 @@
             },
         },
         methods: {
+            ...mapActions(['fetchOrdersAction']),
             create(){
                 axios.post("/graphql", {
                     query:
-                        `mutation storeOrder {` +
-                        `    storeOrder(` +
-                        `        name: "${this.order.name}",` +
-                        `        groupName: "${this.order.groupName}",` +
-                        `        description: "${this.order.description}",` +
-                        `        fileName: "${this.order.fileName}",` +
-                        `        copies: ${this.order.copies},` +
-                        `        pages: ${this.order.pages},` +
-                        `        orderPriority: "${this.order.orderPriority}",` +
-                        `        printType: "${this.order.printType}",` +
-                        `        paperType: "${this.order.paperType}",` +
-                        `        colorType: "${this.order.colorType}",` +
-                        `        manufactureDate: "${this.formattedDate} ${this.order.time}:00"` +
-                        `    ){` +
-                        `        name, groupName, description, fileName,` +
-                        `        copies, pages, orderPriority,` +
-                        `        printType, paperType, colorType, manufactureDate` +
-                        `    }` +
-                        `}`
+                        `mutation storeOrder {
+                            storeOrder(
+                                name: "${this.order.name}",
+                                groupName: "${this.order.groupName}",
+                                description: "${this.order.description}",
+                                fileName: "${this.order.fileName}",
+                                copies: ${this.order.copies},
+                                pages: ${this.order.pages},
+                                orderPriority: "${this.order.orderPriority}",
+                                printType: "${this.order.printType}",
+                                paperType: "${this.order.paperType}",
+                                colorType: "${this.order.colorType}",
+                                manufactureDate: "${this.formattedDate} ${this.order.time}:00",
+                            ){
+                                name, groupName, description, fileName,
+                                copies, pages, orderPriority,
+                                printType, paperType, colorType, manufactureDate,
+                            }
+                        }`
                 })
                     .then(res => {
+                        this.fetchOrdersAction()
                         this.$emit('closePrintOrderDialog')
                     })
 

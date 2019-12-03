@@ -9,10 +9,14 @@ export default new Vuex.Store({
     state: {
         user: userData,
         users: [],
+        orders: [],
     },
     mutations: {
         fetchUsersMutation(state, users){
             state.users = users.users
+        },
+        fetchOrdersMutation(state, orders){
+            state.orders = orders.orders
         },
     },
     getters: {
@@ -24,14 +28,28 @@ export default new Vuex.Store({
         fetchUsersAction({commit, state}){
             axios.post("/graphql", {
                 query:
-                    '{' +
-                    '    users {' +
-                    '        name, email, picture, lastVisit, roles' +
-                    '    }' +
-                    '}'
+                    `{
+                        users {
+                            name, email, picture, lastVisit, roles,
+                        }
+                    }`
             })
                 .then(res => {
                     commit('fetchUsersMutation', res.data.data)
+                })
+        },
+        fetchOrdersAction({commit, state}){
+            axios.post("/graphql", {
+                query:
+                    `{
+                        orders {
+                             id, name, groupName, description, fileName, copies, pages, orderStatus,
+                             orderPriority, printType, paperType, colorType, manufactureDate, createdAt,
+                        }
+                    }`
+            })
+                .then(res => {
+                    commit('fetchOrdersMutation', res.data.data)
                 })
         },
     }
