@@ -31,7 +31,7 @@
             CreateOrderDialog,
         },
         data: () => ({
-            openCreatePrintOrderDialog: false,
+            openCreatePrintOrderDialog: true,
         }),
         methods: {
             onCreatePrintOrder(){
