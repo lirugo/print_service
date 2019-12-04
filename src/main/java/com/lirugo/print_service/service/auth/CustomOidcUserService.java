@@ -1,9 +1,11 @@
-package com.lirugo.print_service.service;
+package com.lirugo.print_service.service.auth;
 
 import com.lirugo.print_service.entity.User;
 import com.lirugo.print_service.enums.UserRole;
 import com.lirugo.print_service.repo.UserRepo;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -11,7 +13,9 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class CustomOidcUserService extends OidcUserService {
@@ -34,22 +38,23 @@ public class CustomOidcUserService extends OidcUserService {
     }
 
     private OidcUser processOidcUser(OidcUser oidcUser) {
-        GoogleOAuth2UserService googleOAuth2User = new GoogleOAuth2UserService(oidcUser.getAttributes());
+        Optional<User> userOptional = Optional.ofNullable(userRepo.findByEmail(oidcUser.getAttributes().get("email").toString()));
 
-        Optional<User> userOptional = Optional.ofNullable(userRepo.findByEmail(googleOAuth2User.getEmail()));
+        User user = new User();
+        user.setId(oidcUser.getAttributes().get("sub").toString());
+        user.setEmail(oidcUser.getAttributes().get("email").toString());
+        user.setName(oidcUser.getAttributes().get("name").toString());
+        user.setPicture(oidcUser.getAttributes().get("picture").toString());
+        user.setRoles(Collections.singleton(UserRole.USER));
 
         //This is new user, store to db
         if (!userOptional.isPresent()) {
-            User user = new User();
-            user.setId(googleOAuth2User.getId());
-            user.setEmail(googleOAuth2User.getEmail());
-            user.setName(googleOAuth2User.getName());
-            user.setPicture(googleOAuth2User.getPicture());
-            user.setRoles(Collections.singleton(UserRole.USER));
-
             userRepo.save(user);
         }
 
-        return oidcUser;
+        Set<GrantedAuthority> mappedAuthorities = new HashSet<>();
+        mappedAuthorities.add(new SimpleGrantedAuthority(UserRole.USER.toString()));
+
+        return new UserPrincipal(mappedAuthorities, oidcUser.getIdToken(), oidcUser.getUserInfo(), user);
     }
 }

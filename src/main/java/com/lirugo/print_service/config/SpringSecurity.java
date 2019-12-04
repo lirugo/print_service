@@ -1,7 +1,7 @@
 package com.lirugo.print_service.config;
 
 import com.lirugo.print_service.repo.UserRepo;
-import com.lirugo.print_service.service.CustomOidcUserService;
+import com.lirugo.print_service.service.auth.CustomOidcUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +28,8 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and().csrf().disable()
                 .oauth2Login()
-                .userInfoEndpoint()
-                .oidcUserService(oidcUserService())
+                    .userInfoEndpoint()
+                        .oidcUserService(oidcUserService())
                 .and()
                     .successHandler(myAuthenticationSuccessHandler())
         ;
@@ -43,5 +43,4 @@ public class SpringSecurity extends WebSecurityConfigurerAdapter {
     private OAuth2UserService<OidcUserRequest, OidcUser> oidcUserService() {
         return new CustomOidcUserService(userRepo);
     }
-
 }
