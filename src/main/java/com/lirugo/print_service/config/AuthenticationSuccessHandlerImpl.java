@@ -2,8 +2,10 @@ package com.lirugo.print_service.config;
 
 import com.lirugo.print_service.entity.User;
 import com.lirugo.print_service.repo.UserRepo;
+import com.lirugo.print_service.service.auth.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -21,7 +23,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         //Update user last visit
-        User user = userRepo.findById(authentication.getName()).get();
+        User user = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         user.setLastVisit(LocalDateTime.now());
         userRepo.save(user);
 

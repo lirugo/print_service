@@ -19,7 +19,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getById(String id) {
-        return userRepo.findById(id).get();
+    public User getById(int id) {
+        return userRepo.findById(id);
     }
 }

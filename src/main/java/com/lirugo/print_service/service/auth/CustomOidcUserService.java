@@ -38,10 +38,10 @@ public class CustomOidcUserService extends OidcUserService {
     }
 
     private OidcUser processOidcUser(OidcUser oidcUser) {
-        Optional<User> userOptional = Optional.ofNullable(userRepo.findByEmail(oidcUser.getAttributes().get("email").toString()));
+        Optional<User> userOptional = Optional.ofNullable(userRepo.findByGoogleId(oidcUser.getAttributes().get("sub").toString()));
 
         User user = new User();
-        user.setId(oidcUser.getAttributes().get("sub").toString());
+        user.setGoogleId(oidcUser.getAttributes().get("sub").toString());
         user.setEmail(oidcUser.getAttributes().get("email").toString());
         user.setName(oidcUser.getAttributes().get("name").toString());
         user.setPicture(oidcUser.getAttributes().get("picture").toString());
@@ -49,7 +49,7 @@ public class CustomOidcUserService extends OidcUserService {
 
         //This is new user, store to db
         if (!userOptional.isPresent()) {
-            userRepo.save(user);
+            user = userRepo.save(user);
         }
 
         Set<GrantedAuthority> mappedAuthorities = new HashSet<>();

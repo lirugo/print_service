@@ -5,6 +5,8 @@ import com.lirugo.print_service.entity.Order;
 import com.lirugo.print_service.entity.User;
 import com.lirugo.print_service.service.OrderService;
 import com.lirugo.print_service.service.UserService;
+import com.lirugo.print_service.service.auth.UserPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 public class OrderMutation implements GraphQLMutationResolver {
 
@@ -22,10 +24,8 @@ public class OrderMutation implements GraphQLMutationResolver {
             String printType, String paperType, String colorType, String manufactureDate
     ) {
         //Get users
-        User author = null;
+        User author = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
         User executor = null;
-        if(executorId != null)
-            executor = userService.getById(executorId);
 
         Order order = new Order(
                 name, author, executor, groupName, description, fileName, copies,

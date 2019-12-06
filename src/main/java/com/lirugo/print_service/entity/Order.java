@@ -1,8 +1,9 @@
 package com.lirugo.print_service.entity;
 
 import com.lirugo.print_service.enums.*;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
@@ -12,9 +13,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Entity
-@Data
-@Table(name="ordr")
+@Getter @Setter
 @NoArgsConstructor
+@Table(name="ordr")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
