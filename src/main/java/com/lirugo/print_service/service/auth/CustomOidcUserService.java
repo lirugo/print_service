@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -38,17 +37,17 @@ public class CustomOidcUserService extends OidcUserService {
     }
 
     private OidcUser processOidcUser(OidcUser oidcUser) {
-        Optional<User> userOptional = Optional.ofNullable(userRepo.findByGoogleId(oidcUser.getAttributes().get("sub").toString()));
-
-        User user = new User();
-        user.setGoogleId(oidcUser.getAttributes().get("sub").toString());
-        user.setEmail(oidcUser.getAttributes().get("email").toString());
-        user.setName(oidcUser.getAttributes().get("name").toString());
-        user.setPicture(oidcUser.getAttributes().get("picture").toString());
-        user.setRoles(Collections.singleton(UserRole.USER));
+        User user = userRepo.findByGoogleId(oidcUser.getAttributes().get("sub").toString());
 
         //This is new user, store to db
-        if (!userOptional.isPresent()) {
+        if (user == null) {
+            user = new User();
+            user.setGoogleId(oidcUser.getAttributes().get("sub").toString());
+            user.setEmail(oidcUser.getAttributes().get("email").toString());
+            user.setName(oidcUser.getAttributes().get("name").toString());
+            user.setPicture(oidcUser.getAttributes().get("picture").toString());
+            user.setRoles(Collections.singleton(UserRole.USER));
+
             user = userRepo.save(user);
         }
 

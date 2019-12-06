@@ -15,12 +15,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    @Column(name = "google_id")
+
+    @Column(name = "google_id", unique = true)
     private String googleId;
+
+    @Column(unique = true)
     private String email;
+
     private String name;
     private String picture;
     private String room;
+
     @Column(name = "last_visit")
     private LocalDateTime lastVisit;
 
