@@ -111,9 +111,13 @@
                                     </v-row>
                                     <v-row cols="12" class="pt-0 pb-0">
                                         <v-col cols="12" sm="12" md="4" class="pt-0 pb-0">
-                                            <v-file-input v-model="file"
-                                                          accept="application/pdf"
-                                                          label="File only *.pdf"/>
+                                            <validation-provider name="file" rules="required" v-slot="{errors}">
+                                                <v-file-input v-model="file"
+                                                              accept="application/pdf"
+                                                              label="File only *.pdf"
+                                                              :error-messages="errors"
+                                                />
+                                            </validation-provider>
                                         </v-col>
                                         <v-col cols="12" sm="12" md="4" class="pt-0 pb-0">
                                             <validation-provider name="copies" rules="required|positive" v-slot="{errors}">
