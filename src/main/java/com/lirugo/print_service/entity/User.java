@@ -1,5 +1,6 @@
 package com.lirugo.print_service.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lirugo.print_service.enums.UserRole;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Table(name = "usr")
 @Getter @Setter
+@Table(name = "usr")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -33,4 +34,8 @@ public class User {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<UserRole> roles;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    protected Set<Order> orders;
 }
