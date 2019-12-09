@@ -43,8 +43,8 @@ export default new Vuex.Store({
                 query:
                     `{
                         orders {
-                             id, name, groupName, description, fileName, copies, pages, orderStatus,
-                             orderPriority, printType, paperType, colorType, manufactureDate, createdAt,
+                             id, author { name, email, room, picture }, executor { name, email, room, picture }, name, groupName, description, fileName, copies, pages, orderStatus,
+                             orderPriority, printType, paperType, colorType, manufactureDate, createdAt, updatedAt
                         }
                     }`
             })

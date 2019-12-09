@@ -3,11 +3,7 @@
 
         <toolbar @createPrintOrder="onCreatePrintOrder()"/>
         <v-content>
-            <v-container fluid
-                         fill-height
-            >
-                <router-view></router-view>
-            </v-container>
+            <router-view></router-view>
         </v-content>
 
         <!-- CreatePrintOrder Dialog -->
@@ -15,7 +11,6 @@
                 :createPrintOrderDialog="openCreatePrintOrderDialog"
                 @closePrintOrderDialog="onClosePrintOrderDialog()"
         />
-
     </v-app>
 </template>
 
