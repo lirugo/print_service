@@ -101,13 +101,13 @@
                                     <v-autocomplete
                                             :items="[2018, 2019, 2020]"
                                             label="Year"
-                                    ></v-autocomplete>
+                                    />
                                 </v-col>
                                 <v-col cols="12" sm="6" class="pt-0 pb-0">
                                     <v-autocomplete
-                                            :items="['January', 'February', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
+                                            :items="['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']"
                                             label="Month"
-                                    ></v-autocomplete>
+                                    />
                                 </v-col>
                                 <v-col cols="12" class="pa-0">
                                     <v-list class="pa-0">

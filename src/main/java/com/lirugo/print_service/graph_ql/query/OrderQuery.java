@@ -13,7 +13,11 @@ public class OrderQuery implements GraphQLQueryResolver {
         this.orderService = orderService;
     }
 
-    public List<Order> orders() {
-        return orderService.getAll();
+    public List<Order> orders(int limit, int offset) {
+        return orderService.getAll(limit, offset);
+    }
+
+    public int orderCount() {
+        return orderService.getAll().size();
     }
 }

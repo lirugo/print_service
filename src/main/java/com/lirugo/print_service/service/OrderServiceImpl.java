@@ -13,6 +13,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepo orderRepo;
 
     @Override
+    public List<Order> getAll(int limit, int offset) {
+        return orderRepo.findAll(limit, offset);
+    }
+
+    @Override
     public List<Order> getAll() {
         return orderRepo.findAllByOrderByIdDesc();
     }

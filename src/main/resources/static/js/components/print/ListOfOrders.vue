@@ -14,10 +14,31 @@
         >
             <v-col sm="12">
                 <div class="text-center">
-                    <v-pagination
-                            v-model="page"
-                            :length="12"
-                    />
+                    <v-row justify="center">
+                        <div>
+                            <v-select
+                                    v-model="paginator.limit"
+                                    class="mt-1 pt-0 ml-2"
+                                    style="max-width: 80px;"
+                                    :items="paginator.pages"
+                                    label="On page"
+                            />
+                        </div>
+                        <div>
+                            <v-pagination
+                                    v-model="paginator.currentPage"
+                                    :length="paginator.length"
+                            />
+                        </div>
+                        <div class="mt-1">
+                            <v-chip
+                                    class="ma-2"
+                                    small
+                            >
+                                Total {{ orderCount }} orders
+                            </v-chip>
+                        </div>
+                    </v-row>
                 </div>
             </v-col>
 
@@ -101,16 +122,23 @@
 
     export default {
         created() {
-            this.fetchOrdersAction()
+            this.fetchOrdersAction(this.paginator)
+            this.paginator.length = Math.ceil(this.orderCount / this.paginator.limit) > 0 ? Math.ceil(this.orderCount / this.paginator.limit) : 1
         },
         computed: {
-            ...mapState(['orders'])
+            ...mapState(['orders', 'orderCount'])
         },
         methods: {
             ...mapActions(['fetchOrdersAction']),
         },
         data: () => ({
-            page:1
+            paginator: {
+                offset: 0,
+                currentPage: 1,
+                limit: 20,
+                length: 6,
+                pages: [10, 20, 50, 100, 200, 500, 1000],
+            }
         })
     }
 </script>
