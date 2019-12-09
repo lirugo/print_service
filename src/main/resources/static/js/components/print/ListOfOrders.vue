@@ -25,6 +25,9 @@
                         dense
                         elevation="2"
                 >
+                    <v-system-bar lights-out v-if="order.orderPriority == 'MEDIUM'">Medium priority</v-system-bar>
+                    <v-system-bar color="orange darken-2" lights-out v-else-if="order.orderPriority == 'HIGH'">High priority</v-system-bar>
+
                     <span style="position: relative; float: right" class="text-right right ma-2"
                           v-text="'#' + order.id"/>
                     <v-list-item>
@@ -58,7 +61,7 @@
                         </v-btn>
                         <v-spacer/>
                         <v-chip color="green" v-if="order.orderStatus == 'DONE'" outlined v-text="order.orderStatus"/>
-                        <v-chip color="yellow" v-else-if="order.orderStatus == 'IN_PROGRESS'" outlined v-text="order.orderStatus"/>
+                        <v-chip color="orange" v-else-if="order.orderStatus == 'IN_PROGRESS'" outlined v-text="order.orderStatus"/>
                         <v-chip color="red" v-else outlined v-text="order.orderStatus"/>
                         <v-spacer/>
                         <v-chip outlined color="white" v-text="order.groupName"/>
