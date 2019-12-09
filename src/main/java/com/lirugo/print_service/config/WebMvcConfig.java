@@ -1,11 +1,13 @@
 package com.lirugo.print_service.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
@@ -20,6 +22,11 @@ import java.util.concurrent.TimeUnit;
 @EnableWebMvc
 @ComponentScan("com.lirugo.print_service.controller")
 public class WebMvcConfig implements WebMvcConfigurer {
+
+    @Value("${storage.order.file}")
+    private String storageOrderFile;
+    @Value("${max.file.size}")
+    private String maxFileSize;
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -50,8 +57,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        // Register resource handler for CSS and JS
         registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/")
                 .setCacheControl(CacheControl.maxAge(2, TimeUnit.HOURS).cachePublic());
+        registry.addResourceHandler("/static/img/**")
+                .addResourceLocations("file://" + storageOrderFile + "/");
+    }
+
+    @Bean
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(Long.parseLong(maxFileSize));
+        return multipartResolver;
     }
 }

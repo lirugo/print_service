@@ -3,6 +3,11 @@
         <v-card>
             <ValidationObserver v-slot="{ invalid }">
                 <form>
+                    <v-progress-linear
+                            v-if="fileUploading"
+                            indeterminate
+                            color="yellow darken-2"
+                    />
                     <v-system-bar lights-out>* All fields is required</v-system-bar>
                     <v-card-title>
                         <v-btn outlined small fab
@@ -106,7 +111,7 @@
                                     </v-row>
                                     <v-row cols="12" class="pt-0 pb-0">
                                         <v-col cols="12" sm="12" md="4" class="pt-0 pb-0">
-                                            <v-file-input label="File only *.pdf"/>
+                                            <v-file-input v-model="file" label="File only *.pdf"/>
                                         </v-col>
                                         <v-col cols="12" sm="12" md="4" class="pt-0 pb-0">
                                             <validation-provider name="copies" rules="required|positive" v-slot="{errors}">
@@ -216,6 +221,8 @@
         data: () => ({
             showDatePicker: false,
             showTimePicker: false,
+            file: null,
+            fileUploading: false,
             order: {
                 date: new Date().toISOString().substr(0, 10),
                 time: '09:30',
@@ -235,6 +242,31 @@
             formattedDate () {
                 return this.order.date ? moment(this.order.date).format('DD-MM-YYYY') : ''
             },
+        },
+        watch: {
+            //Send file to server
+            file: function (val) {
+                if(val != null) {
+                    this.fileUploading = true
+                    let gThis = this
+
+                    let formData = new FormData()
+                    formData.append('file', val)
+
+                    axios.post('/api/order/file',
+                        formData,
+                        {
+                            headers: {
+                                'Content-Type': 'multipart/form-data'
+                            }
+                        }
+                    ).then(res => {
+                        gThis.order.fileName = res.data
+                    }).finally(() => {
+                        this.fileUploading = false
+                    })
+                }
+            }
         },
         methods: {
             ...mapActions(['fetchOrdersAction']),
