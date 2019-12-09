@@ -1,6 +1,15 @@
 <template>
     <v-container>
-        <v-row cols="12"
+        <v-row v-if="orders.length < 1"
+               cols="12"
+               align="start"
+        >
+            <v-col sm="12">
+                No any order yet...
+            </v-col>
+        </v-row>
+        <v-row v-else
+               cols="12"
                align="start"
         >
             <v-col sm="12">
@@ -57,9 +66,9 @@
                     </v-list-item>
 
                     <v-card-actions>
-                            <v-btn :href="'/static/order/' + order.fileName" icon>
-                                <v-icon>mdi-download</v-icon>
-                            </v-btn>
+                        <v-btn :href="'/static/order/' + order.fileName" target="_blank" icon>
+                            <v-icon>mdi-download</v-icon>
+                        </v-btn>
                         <v-spacer/>
                         <v-chip color="green" v-if="order.orderStatus == 'DONE'" outlined v-text="order.orderStatus"/>
                         <v-chip color="orange" v-else-if="order.orderStatus == 'IN_PROGRESS'" outlined v-text="order.orderStatus"/>
