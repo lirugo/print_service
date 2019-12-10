@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-row v-if="orders.length < 1"
                cols="12"
                align="start"

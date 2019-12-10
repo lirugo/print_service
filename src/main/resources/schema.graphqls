@@ -7,8 +7,13 @@ schema {
 
 type Query {
     users: [User],
-    orders(limit: Int, offset: Int): [Order],
-    orderCount: Int,
+    orders(filter: OrdeFilter, limit: Int, offset: Int): [Order],
+    orderCount(filter: OrdeFilter): Int,
+}
+
+input OrdeFilter {
+    authorId: Int,
+    executorId: Int,
 }
 
 type Mutation {
@@ -57,7 +62,7 @@ type Order {
 }
 
 type User {
-    id: String,
+    id: Int,
     name: String,
     email: String,
     picture: String,

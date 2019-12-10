@@ -36,7 +36,7 @@ export default new Vuex.Store({
                 query:
                     `{
                         users {
-                            name, email, picture, lastVisit, roles,
+                            id, name, email, picture, lastVisit, roles,
                         }
                     }`
             })
