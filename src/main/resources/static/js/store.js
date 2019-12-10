@@ -62,7 +62,8 @@ export default new Vuex.Store({
                 query:
                     `{
                         orders(limit:${limit}, offset:${offset}) {
-                             id, author { name, email, room, picture }, executor { name, email, room, picture }, name, groupName, description, fileName, copies, pages, orderStatus,
+                             id, author { name, email, room, picture }, executor { name, email, room, picture }, 
+                             name, groupName, description, fileName, copies, pages, orderStatus, repeatMessage,
                              orderPriority, printType, paperType, colorType, manufactureDate, createdAt, updatedAt
                         },
                         orderCount

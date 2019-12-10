@@ -42,7 +42,6 @@
                     </v-row>
                 </div>
             </v-col>
-
             <v-col
                     v-for="order in orders"
                     :key="order.id"
@@ -51,72 +50,98 @@
                     md="6"
                     lg="3"
             >
-                <v-card
-                        outlined
+                <v-alert
+                        v-if="order.orderStatus === 'REPEAT'"
                         dense
-                        elevation="2"
+                        outlined
+                        color="red"
+                        type="error"
                 >
-                    <v-system-bar color="orange darken-2" lights-out v-if="order.orderPriority == 'HIGH'">High priority</v-system-bar>
-                    <v-system-bar color="grey darken-2"lights-out v-else-if="order.orderPriority == 'MEDIUM'">Medium priority</v-system-bar>
-                    <v-system-bar color="grey darken-3" lights-out v-else-if="order.orderPriority == 'LOW'">Low priority</v-system-bar>
+                    Order will not be completed. Create new one.
+                </v-alert>
 
-                    <span style="position: relative; float: right" class="text-right right ma-2"
-                          v-text="'#' + order.id"/>
-                    <v-list-item>
-                        <v-list-item-avatar color="grey" size="50">
-                            <v-img :src="order.author.picture"/>
-                        </v-list-item-avatar>
-                        <v-list-item-content>
-                            <v-list-item-title class="headline" v-text="order.author.name"/>
-                            <v-list-item-subtitle>{{order.author.email}} - room {{order.author.room}}</v-list-item-subtitle>
-                        </v-list-item-content>
-                    </v-list-item>
-                    <v-divider></v-divider>
+                <v-hover v-slot:default="{ hover }">
+                    <v-card
+                            outlined
+                            dense
+                            elevation="2"
+                    >
+                        <v-system-bar color="orange darken-2" lights-out v-if="order.orderPriority == 'HIGH'">High priority</v-system-bar>
+                        <v-system-bar color="grey darken-2"lights-out v-else-if="order.orderPriority == 'MEDIUM'">Medium priority</v-system-bar>
+                        <v-system-bar color="grey darken-3" lights-out v-else-if="order.orderPriority == 'LOW'">Low priority</v-system-bar>
 
-                    <v-list-item three-line>
-                        <v-list-item-content>
-                            <div class="overline">{{order.createdAt}} - Date of request</div>
-                            <div class="overline">{{order.manufactureDate}} - Desired date of manufacturing</div>
-                            <v-list-item-title class="headline mb-1" v-text="order.name"/>
-                            <v-list-item-subtitle v-text="order.description != 'null' ? order.description : 'Dont have description'"/>
-                            <div class="overline mt-2">Copies - {{order.copies}}</div>
-                            <div class="overline">Pages - {{order.pages}}</div>
-                            <div class="overline">Type of paper - {{order.paperType}}</div>
-                            <div class="overline">Type of print - {{order.printType}}</div>
-                            <div class="overline">Type of color - {{order.colorType}}</div>
-                        </v-list-item-content>
-                    </v-list-item>
-
-                    <v-card-actions>
-                        <v-btn :href="'/static/order/' + order.fileName" target="_blank" icon>
-                            <v-icon>mdi-download</v-icon>
-                        </v-btn>
-                        <v-spacer/>
-                        <v-chip color="green" v-if="order.orderStatus == 'DONE'" outlined v-text="order.orderStatus"/>
-                        <v-chip color="orange" v-else-if="order.orderStatus == 'IN_PROGRESS'" outlined v-text="order.orderStatus"/>
-                        <v-chip color="red" v-else outlined v-text="order.orderStatus"/>
-                        <v-spacer/>
-                        <v-chip outlined color="white" v-text="order.groupName"/>
-                    </v-card-actions>
-
-                    <div v-if="order.executor">
-                        <v-divider></v-divider>
+                        <span style="position: relative; float: right" class="text-right right ma-2"
+                              v-text="'#' + order.id"/>
                         <v-list-item>
                             <v-list-item-avatar color="grey" size="50">
-                                <v-img :src="order.executor.picture"/>
+                                <v-img :src="order.author.picture"/>
                             </v-list-item-avatar>
                             <v-list-item-content>
-                                <v-list-item-title class="headline" v-text="order.executor.name"/>
-                                <v-list-item-subtitle>{{order.executor.email}} - room {{order.executor.room}}</v-list-item-subtitle>
-                                <div class="overline">{{order.updatedAt}} - Date of executing</div>
+                                <v-list-item-title class="headline" v-text="order.author.name"/>
+                                <v-list-item-subtitle>{{order.author.email}} - room {{order.author.room}}</v-list-item-subtitle>
                             </v-list-item-content>
                         </v-list-item>
-                    </div>
-                    <div v-else-if="user.roles.includes('ADMIN')">
                         <v-divider></v-divider>
-                        <change-order-state-dialog :order="order" />
-                    </div>
-                </v-card>
+
+                        <v-expand-transition>
+                            <div
+                                    v-if="hover && order.orderStatus === 'REPEAT' && order.repeatMessage"
+                                    class="d-flex transition-fast-in-fast-out v-card--reveal pa-2 white--text"
+                                    style="
+                                        border-width: 2px 0 2px 0;
+                                        border-style: solid;
+                                        border-color: #F44336;
+                                        height: 100%;"
+                            >
+                                {{order.repeatMessage}}
+                            </div>
+                        </v-expand-transition>
+
+                        <v-list-item three-line>
+                            <v-list-item-content>
+                                <div class="overline">{{order.createdAt}} - Date of request</div>
+                                <div class="overline">{{order.manufactureDate}} - Desired date of manufacturing</div>
+                                <v-list-item-title class="headline mb-1" v-text="order.name"/>
+                                <v-list-item-subtitle v-text="order.description != 'null' ? order.description : 'Dont have description'"/>
+                                <div class="overline mt-2">Copies - {{order.copies}}</div>
+                                <div class="overline">Pages - {{order.pages}}</div>
+                                <div class="overline">Type of paper - {{order.paperType}}</div>
+                                <div class="overline">Type of print - {{order.printType}}</div>
+                                <div class="overline">Type of color - {{order.colorType}}</div>
+                            </v-list-item-content>
+                        </v-list-item>
+
+                        <v-card-actions>
+                            <v-btn :href="'/static/order/' + order.fileName" target="_blank" icon>
+                                <v-icon>mdi-download</v-icon>
+                            </v-btn>
+                            <v-spacer/>
+                            <v-chip color="green" v-if="order.orderStatus == 'DONE'" outlined v-text="order.orderStatus"/>
+                            <v-chip color="orange" v-else-if="order.orderStatus == 'IN_PROGRESS'" outlined v-text="order.orderStatus"/>
+                            <v-chip color="red" v-else outlined v-text="order.orderStatus"/>
+                            <v-spacer/>
+                            <v-chip outlined color="white" v-text="order.groupName"/>
+                        </v-card-actions>
+
+                        <div v-if="order.executor">
+                            <v-divider></v-divider>
+                            <v-list-item>
+                                <v-list-item-avatar color="grey" size="50">
+                                    <v-img :src="order.executor.picture"/>
+                                </v-list-item-avatar>
+                                <v-list-item-content>
+                                    <v-list-item-title class="headline" v-text="order.executor.name"/>
+                                    <v-list-item-subtitle>{{order.executor.email}} - room {{order.executor.room}}</v-list-item-subtitle>
+                                    <div class="overline">{{order.updatedAt}} - Date of executing</div>
+                                </v-list-item-content>
+                            </v-list-item>
+                        </div>
+                        <div v-else-if="user.roles.includes('ADMIN')">
+                            <v-divider></v-divider>
+                            <change-order-state-dialog :order="order" />
+                        </div>
+                    </v-card>
+                </v-hover>
             </v-col>
         </v-row>
     </v-container>

@@ -35,6 +35,7 @@
                             />
 
                             <v-textarea
+                                    v-model="repeatMessage"
                                     v-if="status == 'REPEAT'"
                                     outlined
                                     name="input-7-4"
@@ -57,6 +58,7 @@
         data () {
             return {
                 dialog: false,
+                repeatMessage: null,
                 status: 'DONE',
                 options: ['DONE', 'REPEAT'],
             }
@@ -71,7 +73,7 @@
                             updateStatusOrder(
                                 id: ${this.order.id},
                                 orderStatus: "${this.status}",
-
+                                repeatMessage: "${this.repeatMessage}",
                             ){
                                id, orderStatus
                             }
