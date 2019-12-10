@@ -11,6 +11,7 @@ export default new Vuex.Store({
         users: [],
         orders: [],
         orderCount: 0,
+        paginator: null,
     },
     mutations: {
         fetchUsersMutation(state, users){
@@ -19,6 +20,9 @@ export default new Vuex.Store({
         fetchOrdersMutation(state, orders){
             state.orders = orders.orders
             state.orderCount = orders.orderCount
+        },
+        fetchPaginatorMutation(state, paginator){
+            state.paginator = paginator
         },
     },
     getters: {
@@ -41,10 +45,23 @@ export default new Vuex.Store({
                 })
         },
         fetchOrdersAction({commit, state}, paginator){
+            if(paginator) {
+                commit('fetchPaginatorMutation', paginator)
+            }
+            let limit = 10
+            let offset = 0
+            if(state.paginator) {
+                limit = state.paginator.limit
+                offset = state.paginator.offset
+            }
+            if(paginator){
+                limit = paginator.limit
+                offset = paginator.offset
+            }
             axios.post("/graphql", {
                 query:
                     `{
-                        orders(limit:${paginator.limit}, offset:${paginator.offset}) {
+                        orders(limit:${limit}, offset:${offset}) {
                              id, author { name, email, room, picture }, executor { name, email, room, picture }, name, groupName, description, fileName, copies, pages, orderStatus,
                              orderPriority, printType, paperType, colorType, manufactureDate, createdAt, updatedAt
                         },

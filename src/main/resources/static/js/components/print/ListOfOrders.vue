@@ -112,6 +112,10 @@
                             </v-list-item-content>
                         </v-list-item>
                     </div>
+                    <div v-else-if="user.roles.includes('ADMIN')">
+                        <v-divider></v-divider>
+                        <change-order-state-dialog :order="order" />
+                    </div>
                 </v-card>
             </v-col>
         </v-row>
@@ -120,19 +124,23 @@
 
 <script>
     import {mapActions, mapState} from 'vuex'
+    import ChangeOrderStateDialog from 'components/print/ChangeOrderStateDialog.vue'
 
     export default {
+        components: {
+            ChangeOrderStateDialog,
+        },
         mounted() {
             this.fetchOrdersAction(this.paginator)
         },
         computed: {
-            ...mapState(['orders', 'orderCount'])
+            ...mapState(['orders', 'orderCount', 'user'])
         },
         methods: {
             ...mapActions(['fetchOrdersAction']),
             updatePaginator(){
                 this.paginator.offset = this.paginator.limit * this.paginator.currentPage - this.paginator.limit
-                this.length = this.orderCount / this.paginator.limit
+                this.length = Math.ceil(this.orderCount / this.paginator.limit)
 
                 this.fetchOrdersAction(this.paginator)
             }

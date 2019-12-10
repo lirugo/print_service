@@ -6,7 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface OrderRepo extends JpaRepository<Order, Long> {
+public interface OrderRepo extends JpaRepository<Order, Integer> {
+    Order findById(int id);
     List<Order> findAllByOrderByIdDesc();
 
     @Query(value = "SELECT * FROM ordr ORDER BY id DESC LIMIT ?1 OFFSET ?2", nativeQuery = true)

@@ -26,6 +26,12 @@ type Mutation {
         paperType: String,
         colorType: String,
         manufactureDate: String,
+    ):Order,
+
+    updateStatusOrder(
+        id: Int,
+        orderStatus: String,
+        repeatMessage: String,
     ):Order
 }
 
@@ -40,6 +46,7 @@ type Order {
     copies: Int,
     pages: Int,
     orderStatus: String,
+    repeatMessage: String,
     orderPriority: String,
     printType: String,
     paperType: String,

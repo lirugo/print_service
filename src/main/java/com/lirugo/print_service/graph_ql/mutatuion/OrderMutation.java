@@ -3,6 +3,7 @@ package com.lirugo.print_service.graph_ql.mutatuion;
 import com.coxautodev.graphql.tools.GraphQLMutationResolver;
 import com.lirugo.print_service.entity.Order;
 import com.lirugo.print_service.entity.User;
+import com.lirugo.print_service.enums.OrderStatus;
 import com.lirugo.print_service.service.OrderService;
 import com.lirugo.print_service.service.UserService;
 import com.lirugo.print_service.service.auth.UserPrincipal;
@@ -32,6 +33,22 @@ public class OrderMutation implements GraphQLMutationResolver {
                 pages, orderStatus, orderPriority, printType, paperType, colorType,
                 manufactureDate
         );
+
+        orderService.save(order);
+
+        return order;
+    }
+
+    public Order updateStatusOrder(
+          int id, String orderStatus, String repeatMessage
+    ) {
+        //Get auth users
+        User executor = userService.getById(((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser().getId());
+
+        Order order = orderService.getById(id);
+        order.setExecutor(executor);
+        order.setRepeatMessage(repeatMessage);
+        order.setOrderStatus(OrderStatus.valueOf(orderStatus.toUpperCase()));
 
         orderService.save(order);
 

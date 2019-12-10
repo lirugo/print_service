@@ -13,6 +13,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepo orderRepo;
 
     @Override
+    public Order getById(int id) {
+        return orderRepo.findById(id);
+    }
+
+    @Override
     public List<Order> getAll(int limit, int offset) {
         return orderRepo.findAll(limit, offset);
     }
@@ -28,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void delete(long id) {
+    public void delete(int id) {
         orderRepo.deleteById(id);
     }
 }

@@ -45,6 +45,9 @@ public class Order {
     @Column(name = "order_status")
     private OrderStatus orderStatus;
 
+    @Column(name = "repeat_message", columnDefinition = "varchar(2048) default ''")
+    private String repeatMessage;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "order_priority")
     private OrderPriority orderPriority;
