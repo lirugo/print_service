@@ -27,7 +27,8 @@
                         <div>
                             <v-pagination
                                     v-model="paginator.currentPage"
-                                    :length="paginator.length"
+                                    :length="length"
+                                    :total-visible="paginator.totalVisible"
                             />
                         </div>
                         <div class="mt-1">
@@ -77,7 +78,7 @@
                             <div class="overline">{{order.createdAt}} - Date of request</div>
                             <div class="overline">{{order.manufactureDate}} - Desired date of manufacturing</div>
                             <v-list-item-title class="headline mb-1" v-text="order.name"/>
-                            <v-list-item-subtitle v-text="order.description"/>
+                            <v-list-item-subtitle v-text="order.description != 'null' ? order.description : 'Dont have description'"/>
                             <div class="overline mt-2">Copies - {{order.copies}}</div>
                             <div class="overline">Pages - {{order.pages}}</div>
                             <div class="overline">Type of paper - {{order.paperType}}</div>
@@ -121,24 +122,44 @@
     import {mapActions, mapState} from 'vuex'
 
     export default {
-        created() {
+        mounted() {
             this.fetchOrdersAction(this.paginator)
-            this.paginator.length = Math.ceil(this.orderCount / this.paginator.limit) > 0 ? Math.ceil(this.orderCount / this.paginator.limit) : 1
         },
         computed: {
             ...mapState(['orders', 'orderCount'])
         },
         methods: {
             ...mapActions(['fetchOrdersAction']),
+            updatePaginator(){
+                this.paginator.offset = this.paginator.limit * this.paginator.currentPage - this.paginator.limit
+                this.length = this.orderCount / this.paginator.limit
+
+                this.fetchOrdersAction(this.paginator)
+            }
+        },
+        watch: {
+            paginator: {
+                handler(newPaginator) {
+                    this.updatePaginator()
+                },
+                deep: true
+            },
+            length(){
+                this.paginator.currentPage = 1
+            },
+            orderCount(){
+                this.updatePaginator()
+            },
         },
         data: () => ({
+            length: 12,
             paginator: {
+                limit: 10,
                 offset: 0,
                 currentPage: 1,
-                limit: 20,
-                length: 6,
-                pages: [10, 20, 50, 100, 200, 500, 1000],
+                totalVisible: 12,
+                pages: [10, 20, 50, 100, 200, 500],
             }
-        })
+        }),
     }
 </script>
