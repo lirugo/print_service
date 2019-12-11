@@ -291,7 +291,7 @@
                                 printType: "${this.order.printType}",
                                 paperType: "${this.order.paperType}",
                                 colorType: "${this.order.colorType}",
-                                manufactureDate: "${this.formattedDate} ${this.order.time}:00",
+                                desiredManufactureDate: "${this.formattedDate} ${this.order.time}:00",
                             ){
                                 name, groupName, description, fileName,
                                 copies, pages, orderPriority,

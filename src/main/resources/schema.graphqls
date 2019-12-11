@@ -30,7 +30,7 @@ type Mutation {
         printType: String,
         paperType: String,
         colorType: String,
-        manufactureDate: String,
+        desiredManufactureDate: String,
     ):Order,
 
     updateStatusOrder(
@@ -57,6 +57,7 @@ type Order {
     paperType: String,
     colorType: String,
     manufactureDate: String @dateFormat,
+    desiredManufactureDate: String @dateFormat,
     createdAt: String @dateFormat,
     updatedAt: String @dateFormat,
 }

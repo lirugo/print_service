@@ -100,7 +100,7 @@
                         <v-list-item three-line>
                             <v-list-item-content>
                                 <div class="overline">{{order.createdAt}} - Date of request</div>
-                                <div class="overline">{{order.manufactureDate}} - Desired date of manufacturing</div>
+                                <div class="overline">{{order.desiredManufactureDate}} - Desired date of manufacturing</div>
                                 <v-list-item-title class="headline mb-1" v-text="order.name"/>
                                 <v-list-item-subtitle v-text="order.description != 'null' ? order.description : 'Dont have description'"/>
                                 <div class="overline mt-2">Copies - {{order.copies}}</div>
@@ -132,7 +132,7 @@
                                 <v-list-item-content>
                                     <v-list-item-title class="headline" v-text="order.executor.name"/>
                                     <v-list-item-subtitle>{{order.executor.email}} - room {{order.executor.room}}</v-list-item-subtitle>
-                                    <div class="overline">{{order.updatedAt}} - Date of executing</div>
+                                    <div class="overline">{{order.manufactureDate}} - Date of executing</div>
                                 </v-list-item-content>
                             </v-list-item>
                         </div>

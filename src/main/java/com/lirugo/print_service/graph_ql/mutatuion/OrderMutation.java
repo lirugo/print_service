@@ -9,6 +9,8 @@ import com.lirugo.print_service.service.UserService;
 import com.lirugo.print_service.service.auth.UserPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.time.LocalDateTime;
+
 public class OrderMutation implements GraphQLMutationResolver {
 
     private final OrderService orderService;
@@ -22,7 +24,7 @@ public class OrderMutation implements GraphQLMutationResolver {
     public Order storeOrder(
             String name, String executorId, String groupName, String description,
             String fileName, int copies, int pages, String orderStatus, String orderPriority,
-            String printType, String paperType, String colorType, String manufactureDate
+            String printType, String paperType, String colorType, String desiredManufactureDate
     ) {
         //Get users
         User author = ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
@@ -31,7 +33,7 @@ public class OrderMutation implements GraphQLMutationResolver {
         Order order = new Order(
                 name, author, executor, groupName, description, fileName, copies,
                 pages, orderStatus, orderPriority, printType, paperType, colorType,
-                manufactureDate
+                desiredManufactureDate
         );
 
         orderService.save(order);
@@ -48,6 +50,7 @@ public class OrderMutation implements GraphQLMutationResolver {
         Order order = orderService.getById(id);
         order.setExecutor(executor);
         order.setRepeatMessage(repeatMessage);
+        order.setManufactureDate(LocalDateTime.now());
         order.setOrderStatus(OrderStatus.valueOf(orderStatus.toUpperCase()));
 
         orderService.save(order);

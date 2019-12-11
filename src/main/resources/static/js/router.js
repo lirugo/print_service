@@ -6,7 +6,7 @@ import ListOfOrders from "./components/print/ListOfOrders.vue";
 import StatisticUsers from "./components/statistic/Users.vue";
 const routes = [
     { path: '/statistic/users', component: StatisticUsers },
-    { path: '/orders', component: ListOfOrders },
+    { path: '/', component: ListOfOrders },
 ]
 
 export default new VueRouter({

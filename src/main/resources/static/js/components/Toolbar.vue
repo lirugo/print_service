@@ -23,7 +23,7 @@
             <v-btn icon to="/statistic/users">
                 <v-icon>mdi-currency-usd</v-icon>
             </v-btn>
-            <v-btn icon to="/orders">
+            <v-btn icon to="/">
                 <v-icon>mdi-clipboard-list-outline</v-icon>
             </v-btn>
             <v-btn icon

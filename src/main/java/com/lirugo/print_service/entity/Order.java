@@ -64,6 +64,9 @@ public class Order {
     @Column(name = "color_type")
     private ColorType colorType;
 
+    @Column(name = "desired_manufacture_date")
+    private LocalDateTime desiredManufactureDate;
+
     @Column(name = "manufacture_date")
     private LocalDateTime manufactureDate;
 
@@ -78,7 +81,7 @@ public class Order {
     public Order(
             String name, User author, User executor, String groupName, String description,
             String fileName, int copies, int pages, String orderStatus, String orderPriority,
-            String printType, String paperType, String colorType, String manufactureDate
+            String printType, String paperType, String colorType, String desiredManufactureDate
     ) {
         this.name = name;
         this.author = author;
@@ -93,6 +96,6 @@ public class Order {
         this.printType = printType != null ? PrintType.valueOf(printType.toUpperCase()) : PrintType.ONE_SIDE;
         this.paperType = paperType != null ? PaperType.valueOf(paperType.toUpperCase()) : PaperType.A4;
         this.colorType = colorType != null ? ColorType.valueOf(colorType.toUpperCase()) : ColorType.COLOR;
-        this.manufactureDate = LocalDateTime.parse(manufactureDate, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
+        this.desiredManufactureDate = LocalDateTime.parse(desiredManufactureDate, DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"));
     }
 }
