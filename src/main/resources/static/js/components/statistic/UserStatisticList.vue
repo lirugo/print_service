@@ -54,7 +54,8 @@
                     query: `
                     {
                         orders(filter: {executorId: ${userId} }) {
-                             id, name, pages, copies, printType
+                             id, name, pages, copies, printType,
+                             manufactureDate, orderStatus,
                         },
                         orderCount(filter: {executorId: ${userId}})
                     }
